@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 202408026-1
+      author: FirstName LastName
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: is_enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false

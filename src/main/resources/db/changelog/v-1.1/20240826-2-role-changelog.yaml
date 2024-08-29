@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240826-2
+      author: FirstName LastName
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 20240826-3
+      author: FirstName LastName
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: roles
+            constraintName: fk_roles_user
+            referencedColumnNames: id
+            referencedTableName: users
+            onDelete: SET NULL
+            onUpdate: CASCADE

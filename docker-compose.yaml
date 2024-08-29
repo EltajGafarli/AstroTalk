@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api_service:
+    build: .
+    ports:
+      - "8088:8088"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/astro
+      SPRING_DATASOURCE_USERNAME: postgresql
+      SPRING_DATASOURCE_PASSWORD: password
+      ADMIN_EMAIL: eltacqeferli@gmail.com
+    networks:
+      - springpostgres-net
+
+  postgres_db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgresql
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: astro
+    networks:
+      - springpostgres-net
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  springpostgres-net:
