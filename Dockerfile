@@ -18,5 +18,5 @@ RUN ./gradlew build -x test --info --stacktrace
 
 FROM openjdk:17-jdk
 VOLUME /tmp
-COPY --from=builder /workspace/app/build/libs/*.jar app.jar
+COPY --from=builder /workspace/app/build/libs/AstroTalk-0.0.1.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
