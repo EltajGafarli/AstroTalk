@@ -70,7 +70,6 @@ public class JwtService {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         String role = claims.get(JWT_AUTHORITIES_KEY).toString();
 
-        log.info("{}", role);
 
         String []roles = role.split(",");
 
@@ -92,7 +91,6 @@ public class JwtService {
             }
         }
 
-        log.info("{}", role);
 
         return authorities;
     }

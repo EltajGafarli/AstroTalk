@@ -37,7 +37,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     private String lastName;
     private String userName;
     private String email;
-    private String phone;
     private String password;
     private boolean privacyPolicyAccepted;
     private boolean isEnabled = false;
@@ -52,6 +51,11 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToOne(cascade = {
+            CascadeType.ALL
+    }, mappedBy = "user")
+    private com.example.astrotalk.entity.user.UserDetails userDetails;
+
     @Override
     public int hashCode() {
         return Objects.hash(
@@ -60,7 +64,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
                 this.lastName,
                 this.userName,
                 this.email,
-                this.phone,
                 this.password,
                 this.privacyPolicyAccepted
         );
@@ -77,7 +80,6 @@ public class User extends BaseEntity implements UserDetails, Serializable {
                 && Objects.equals(lastName, user.lastName)
                 && Objects.equals(userName, user.userName)
                 && Objects.equals(email, user.email)
-                && Objects.equals(phone, user.phone)
                 && Objects.equals(password, user.password)
                 && Objects.equals(privacyPolicyAccepted, user.privacyPolicyAccepted);
     }

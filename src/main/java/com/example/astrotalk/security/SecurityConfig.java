@@ -4,6 +4,7 @@ import com.example.astrotalk.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,6 +48,41 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user", "/api/user/**")
                                 .hasAnyAuthority( "USER")
                 )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/api/user-details/**")
+                                .authenticated()
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.POST,"/api/planet")
+                                .hasAnyAuthority("ADMIN")
+                )
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.GET,"/api/planet")
+                                .authenticated()
+                )
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.PUT, "/api/planet/{planetId}")
+                                .hasAnyAuthority("ADMIN")
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.GET, "/api/planet/{planetId}")
+                                .authenticated()
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.DELETE, "/api/planet/{planetId}")
+                                .hasAnyAuthority("ADMIN")
+                )
+
 
                 .logout(
                         request -> request.

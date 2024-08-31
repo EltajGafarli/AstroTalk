@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240901-1
+      author: Firstname Lastname
+      changes:
+        - createTable:
+            tableName: planet
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gravitation
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: area
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: about
+                  type: TEXT
+                  constraints:
+                    nullable: false

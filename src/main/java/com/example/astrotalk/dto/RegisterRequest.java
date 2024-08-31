@@ -31,10 +31,5 @@ public class RegisterRequest {
     @NotNull
     @NotEmpty
     @NotBlank
-    @Pattern(regexp = "^(\\+994|0)(50|51|55|70|77)\\d{7}$", message = "Invalid Azerbaijani phone number")
-    private String phone;
-    @NotNull
-    @NotEmpty
-    @NotBlank
     private String password;
 }

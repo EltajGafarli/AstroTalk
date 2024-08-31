@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240901-1
+      author: FirstName LastName
+      changes:
+        - dropColumn:
+            tableName: users
+            columnName: phone

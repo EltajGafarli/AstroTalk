@@ -29,7 +29,6 @@ public class UserService {
         user.setUserName(userRequestDto.getUserName());
         user.setEmail(userRequestDto.getEmail());
         user.setLastName(userRequestDto.getLastName());
-        user.setPhone(userRequestDto.getPhone());
         User savedUser = userRepository.save(user);
         return userToUserDto(savedUser);
     }
@@ -49,7 +48,6 @@ public class UserService {
         return UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .phone(user.getPhone())
                 .email(user.getEmail())
                 .userName(user.getUsername())
                 .build();

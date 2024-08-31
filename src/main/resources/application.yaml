@@ -17,10 +17,18 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${SPRING_DATASOURCE_USERNAME:postgresql}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
-    url: ${SPRING_DATASOURCE_URL:eltacqeferli@gmail}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/astro}
   liquibase:
     enabled: true
 
+  servlet:
+    multipart:
+      max-request-size: 2MB
+      max-file-size: 2MB
+    web:
+      resources:
+        static-locations: file:src/main/resources/static/
+
 admin:
-  email: ${ADMIN_EMAIL}
+  email: ${ADMIN_EMAIL:eltacqeferli@gmail}
 

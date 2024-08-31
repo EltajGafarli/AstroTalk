@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240831-1
+      author: FirstName LastName
+      changes:
+        - createTable:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: profile_picture_url
+                  type: varchar(300)
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: gender
+                  type: varchar(10)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: date_of_birth
+                  type: timestamp
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 20240831-2
+      author: FirstName LastName
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_details
+            constraintName: fk_details_user
+            referencedColumnNames: id
+            referencedTableName: users
+            onDelete: CASCADE
+            onUpdate: CASCADE
