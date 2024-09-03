@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240903-1
+      author: FirstName LastName
+      changes:
+        - createTable:
+            tableName: followers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: follower_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: followers
+            constraintName: fk_followers_user
+            referencedColumnNames: id
+            referencedTableName: users
+            onDelete: SET NULL
+            onUpdate: CASCADE
+
+        - addForeignKeyConstraint:
+            baseColumnNames: follower_id
+            baseTableName: followers
+            constraintName: fk_followers_follower
+            referencedColumnNames: id
+            referencedTableName: users
+            onDelete: SET NULL
+            onUpdate: CASCADE

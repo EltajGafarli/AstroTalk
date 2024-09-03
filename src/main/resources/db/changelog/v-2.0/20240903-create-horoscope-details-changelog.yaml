@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - databaseChangeLog:
+  - changeSet:
+      id: 20240903-1
+      author: FirstName LastName
+      changes:
+        - createTable:
+            tableName: horoscope_details
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+
+              - column:
+                  name: features
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: planet
+                  type: varchar(150)
+              - column:
+                  name: type
+                  type: varchar(50)
+              - column:
+                  name: horoscope_id
+                  type: bigint
+
+  - changeSet:
+      id: 20240903-3
+      author: FirstName LastName
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: horoscope_id
+            baseTableName: horoscope_details
+            constraintName: fk_horoscope_details
+            referencedColumnNames: id
+            referencedTableName: horoscope
+            onDelete: SET NULL
+            onUpdate: CASCADE

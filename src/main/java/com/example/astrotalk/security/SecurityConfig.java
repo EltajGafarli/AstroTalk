@@ -73,6 +73,18 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(
                         request -> request
+                                .requestMatchers(HttpMethod.GET,"/api/horoscope")
+                                .authenticated()
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/api/horoscope/**")
+                                .hasAuthority("ADMIN")
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
                                 .requestMatchers(HttpMethod.GET, "/api/planet/{planetId}")
                                 .authenticated()
                 )
@@ -83,6 +95,29 @@ public class SecurityConfig {
                                 .hasAnyAuthority("ADMIN")
                 )
 
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.GET, "/api/horoscope-details/{hId}")
+                                .authenticated()
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.POST, "api/horoscope-details/{hId}")
+                                .hasAuthority("ADMIN")
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/api/horoscope-details/{hId}/**")
+                                .authenticated()
+                )
+
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/{userId}/follow/{userToFollowId}", "/{userId}/unfollow/{userToUnfollowId}", "/{userId}/followersCount", "/{userId}/followingCount", "/{userId}/recommendations")
+                                .authenticated()
+                )
 
                 .logout(
                         request -> request.

@@ -56,6 +56,13 @@ public class User extends BaseEntity implements UserDetails, Serializable {
     }, mappedBy = "user")
     private com.example.astrotalk.entity.user.UserDetails userDetails;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Follower> followers = new HashSet<>();
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Follower> following = new HashSet<>();
+
+
     @Override
     public int hashCode() {
         return Objects.hash(
@@ -123,5 +130,17 @@ public class User extends BaseEntity implements UserDetails, Serializable {
         }
         this.roles.add(role);
         role.setUser(this);
+    }
+
+
+    public void followUser(User userToFollow) {
+        Follower follower = Follower.builder().user(userToFollow).follower(this).build();
+        this.following.add(follower);
+        userToFollow.getFollowers().add(follower);
+    }
+
+    public void unfollowUser(User userToUnfollow) {
+        this.following.removeIf(follower -> follower.getUser().equals(userToUnfollow));
+        userToUnfollow.getFollowers().removeIf(follower -> follower.getFollower().equals(this));
     }
 }

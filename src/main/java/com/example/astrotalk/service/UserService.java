@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -42,6 +45,64 @@ public class UserService {
 
         userRepository.delete(user);
         return "User deleted successfully";
+    }
+
+    @Transactional
+    public void followUser(Long userId, Long userToFollowId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User userToFollow = userRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
+
+        user.followUser(userToFollow);
+        userRepository.save(user);
+        userRepository.save(userToFollow);
+    }
+
+    @Transactional
+    public void unfollowUser(Long userId, Long userToUnfollowId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User userToUnfollow = userRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
+
+        user.unfollowUser(userToUnfollow);
+        userRepository.save(user);
+        userRepository.save(userToUnfollow);
+    }
+
+    public int getFollowersCount(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowers().size();
+    }
+
+    public int getFollowingCount(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getFollowing().size();
+    }
+
+    public List<UserDto> recommendUsersToFollow(Long userId) {
+        User currentUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<User> allUsers = userRepository.findAll();
+        allUsers.remove(currentUser);
+
+        List<User> usersNotFollowed = allUsers.stream()
+                .filter(user -> currentUser.getFollowing().stream().noneMatch(follower -> follower.getUser().equals(user)))
+                .toList();
+
+        return usersNotFollowed.stream()
+                .sorted((user1, user2) -> {
+                    long sharedInterestsUser1 = user1.getUserDetails().getInterests().stream()
+                            .filter(interest -> currentUser.getUserDetails().getInterests().contains(interest))
+                            .count();
+
+                    long sharedInterestsUser2 = user2.getUserDetails().getInterests().stream()
+                            .filter(interest -> currentUser.getUserDetails().getInterests().contains(interest))
+                            .count();
+
+                    return Long.compare(sharedInterestsUser2, sharedInterestsUser1);
+                })
+                .limit(10)
+                .map(this::userToUserDto)
+                .toList();
+
     }
 
     private UserDto userToUserDto(User user) {

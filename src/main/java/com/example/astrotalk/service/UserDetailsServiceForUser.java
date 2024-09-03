@@ -1,5 +1,6 @@
 package com.example.astrotalk.service;
 
+import com.example.astrotalk.controller.UserController;
 import com.example.astrotalk.dto.UserDetailsDto;
 import com.example.astrotalk.dto.UserDetailsResponseDto;
 import com.example.astrotalk.entity.user.User;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserDetailsServiceForUser {
     private final UserDetailsRepository userDetailsRepository;
     private final UserRepository userRepository;
+
     @Transactional
     public String createUserDetails(long userId, UserDetailsDto userDetailsDto, MultipartFile file) {
         User user = userRepository.findById(userId).orElseThrow(
@@ -28,6 +30,7 @@ public class UserDetailsServiceForUser {
         UserDetails userDetails = this.dtoToUserDetails(userDetailsDto);
         userDetails.setProfilePictureUrl(fileName);
         userDetails.setUser(user);
+        userDetails.setInterests(userDetailsDto.getInterests());
         user.setUserDetails(userDetails);
         userDetailsRepository.save(userDetails);
         return "Details Created Successfully";
@@ -60,6 +63,7 @@ public class UserDetailsServiceForUser {
                 .builder()
                 .dateOfBirth(dto.getDateOfBirth())
                 .gender(dto.getGender())
+                .interests(dto.getInterests())
                 .build();
     }
 
@@ -70,6 +74,7 @@ public class UserDetailsServiceForUser {
                 .profilePictureUrl(userDetails.getProfilePictureUrl())
                 .dateOfBirth(userDetails.getDateOfBirth())
                 .gender(userDetails.getGender())
+                .interests(userDetails.getInterests())
                 .build();
     }
 

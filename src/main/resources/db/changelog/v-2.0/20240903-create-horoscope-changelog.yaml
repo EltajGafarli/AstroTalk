@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240903-1
+      author: Firstname Lastname
+      changes:
+        - createTable:
+            tableName: horoscope
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: horoscope_name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image
+                  type: varchar(200)
+                  constraints:
+                    nullable: false

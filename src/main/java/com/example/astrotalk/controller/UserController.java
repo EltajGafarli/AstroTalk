@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/user")
@@ -39,5 +41,35 @@ public class UserController {
                 .ok(
                         userService.deleteUser(userDetails)
                 );
+    }
+
+    @PostMapping("/{userId}/follow/{userToFollowId}")
+    public ResponseEntity<String> followUser(@PathVariable Long userId, @PathVariable Long userToFollowId) {
+        userService.followUser(userId, userToFollowId);
+        return ResponseEntity.ok("Successfully followed the user.");
+    }
+
+    @PostMapping("/{userId}/unfollow/{userToUnfollowId}")
+    public ResponseEntity<String> unfollowUser(@PathVariable Long userId, @PathVariable Long userToUnfollowId) {
+        userService.unfollowUser(userId, userToUnfollowId);
+        return ResponseEntity.ok("Successfully unfollowed the user.");
+    }
+
+    @GetMapping("/{userId}/followersCount")
+    public ResponseEntity<Integer> getFollowersCount(@PathVariable Long userId) {
+        int followersCount = userService.getFollowersCount(userId);
+        return ResponseEntity.ok(followersCount);
+    }
+
+    @GetMapping("/{userId}/followingCount")
+    public ResponseEntity<Integer> getFollowingCount(@PathVariable Long userId) {
+        int followingCount = userService.getFollowingCount(userId);
+        return ResponseEntity.ok(followingCount);
+    }
+
+    @GetMapping("/{userId}/recommendations")
+    public ResponseEntity<List<UserDto>> recommendUsersToFollow(@PathVariable Long userId) {
+        List<UserDto> recommendedUsers = userService.recommendUsersToFollow(userId);
+        return ResponseEntity.ok(recommendedUsers);
     }
 }

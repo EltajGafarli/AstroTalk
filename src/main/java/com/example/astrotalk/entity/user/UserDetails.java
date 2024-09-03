@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -32,5 +33,11 @@ public class UserDetails {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private User user;
+
+    @ElementCollection(targetClass = Interests.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_details_id"))
+    @Column(name = "interest")
+    private List<Interests> interests;
 
 }
