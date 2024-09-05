@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers("/api/user", "/api/user/**")
-                                .hasAnyAuthority( "USER")
+                                .authenticated()
                 )
 
                 .authorizeHttpRequests(
@@ -115,7 +115,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/{userId}/follow/{userToFollowId}", "/{userId}/unfollow/{userToUnfollowId}", "/{userId}/followersCount", "/{userId}/followingCount", "/{userId}/recommendations")
+                                .requestMatchers("/follow/{userToFollowId}", "/unfollow/{userToUnfollowId}", "/followersCount", "/followingCount", "/recommendations")
                                 .authenticated()
                 )
 

@@ -48,7 +48,9 @@ public class UserService {
     }
 
     @Transactional
-    public void followUser(Long userId, Long userToFollowId) {
+    public void followUser(UserDetails userDetails, Long userToFollowId) {
+        long userId = userRepository.findByUserName(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToFollow = userRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
 
@@ -58,7 +60,9 @@ public class UserService {
     }
 
     @Transactional
-    public void unfollowUser(Long userId, Long userToUnfollowId) {
+    public void unfollowUser(UserDetails userDetails, Long userToUnfollowId) {
+        long userId = userRepository.findByUserName(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToUnfollow = userRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
 
@@ -67,17 +71,24 @@ public class UserService {
         userRepository.save(userToUnfollow);
     }
 
-    public int getFollowersCount(Long userId) {
+    public int getFollowersCount(UserDetails userDetails) {
+        long userId = userRepository.findByUserName(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getFollowers().size();
     }
 
-    public int getFollowingCount(Long userId) {
+    public int getFollowingCount(UserDetails userDetails) {
+        long userId = userRepository.findByUserName(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
+
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getFollowing().size();
     }
 
-    public List<UserDto> recommendUsersToFollow(Long userId) {
+    public List<UserDto> recommendUsersToFollow(UserDetails userDetails) {
+        long userId = userRepository.findByUserName(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
         User currentUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
         List<User> allUsers = userRepository.findAll();
@@ -103,6 +114,11 @@ public class UserService {
                 .map(this::userToUserDto)
                 .toList();
 
+    }
+
+    public UserDto findByUserName(String userName) {
+        return userToUserDto(userRepository.findByUserName(userName)
+                .orElseThrow(() -> new NotFoundException("User not found")));
     }
 
     private UserDto userToUserDto(User user) {

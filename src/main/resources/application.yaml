@@ -30,5 +30,5 @@ spring:
         static-locations: file:src/main/resources/static/
 
 admin:
-  email: ${ADMIN_EMAIL:eltacqeferli@gmail}
+  email: ${ADMIN_EMAIL:eltacqeferli@gmail.com}
 

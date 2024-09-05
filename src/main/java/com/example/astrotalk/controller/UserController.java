@@ -43,33 +43,39 @@ public class UserController {
                 );
     }
 
-    @PostMapping("/{userId}/follow/{userToFollowId}")
-    public ResponseEntity<String> followUser(@PathVariable Long userId, @PathVariable Long userToFollowId) {
-        userService.followUser(userId, userToFollowId);
+    @PostMapping("/follow/{userToFollowId}")
+    public ResponseEntity<String> followUser(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long userToFollowId) {
+        userService.followUser(userDetails, userToFollowId);
         return ResponseEntity.ok("Successfully followed the user.");
     }
 
-    @PostMapping("/{userId}/unfollow/{userToUnfollowId}")
-    public ResponseEntity<String> unfollowUser(@PathVariable Long userId, @PathVariable Long userToUnfollowId) {
-        userService.unfollowUser(userId, userToUnfollowId);
+    @PostMapping("/unfollow/{userToUnfollowId}")
+    public ResponseEntity<String> unfollowUser(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long userToUnfollowId) {
+        userService.unfollowUser(userDetails, userToUnfollowId);
         return ResponseEntity.ok("Successfully unfollowed the user.");
     }
 
-    @GetMapping("/{userId}/followersCount")
-    public ResponseEntity<Integer> getFollowersCount(@PathVariable Long userId) {
-        int followersCount = userService.getFollowersCount(userId);
+    @GetMapping("/followersCount")
+    public ResponseEntity<Integer> getFollowersCount(@AuthenticationPrincipal UserDetails userDetails) {
+        int followersCount = userService.getFollowersCount(userDetails);
         return ResponseEntity.ok(followersCount);
     }
 
-    @GetMapping("/{userId}/followingCount")
-    public ResponseEntity<Integer> getFollowingCount(@PathVariable Long userId) {
-        int followingCount = userService.getFollowingCount(userId);
+    @GetMapping("/followingCount")
+    public ResponseEntity<Integer> getFollowingCount(@AuthenticationPrincipal UserDetails userDetails) {
+        int followingCount = userService.getFollowingCount(userDetails);
         return ResponseEntity.ok(followingCount);
     }
 
-    @GetMapping("/{userId}/recommendations")
-    public ResponseEntity<List<UserDto>> recommendUsersToFollow(@PathVariable Long userId) {
-        List<UserDto> recommendedUsers = userService.recommendUsersToFollow(userId);
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<UserDto>> recommendUsersToFollow(@AuthenticationPrincipal UserDetails userDetails) {
+        List<UserDto> recommendedUsers = userService.recommendUsersToFollow(userDetails);
         return ResponseEntity.ok(recommendedUsers);
+    }
+
+    @GetMapping(path = "/{username}")
+    public ResponseEntity<UserDto> findByUsername(@PathVariable String username) {
+        return ResponseEntity
+                .ok(userService.findByUserName(username));
     }
 }

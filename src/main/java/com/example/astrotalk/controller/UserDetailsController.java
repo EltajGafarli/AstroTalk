@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,16 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class UserDetailsController {
     private final UserDetailsServiceForUser userDetailsServiceForUser;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping(path = "/{userId}", consumes = {
             MediaType.APPLICATION_OCTET_STREAM_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
-    public ResponseEntity<String> createUserDetails(@PathVariable long userId, @RequestPart(value = "userDetailsDto") UserDetailsDto userDetailsDto, @RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<String> createUserDetails(@AuthenticationPrincipal UserDetails userDetails, @RequestPart(value = "userDetailsDto") UserDetailsDto userDetailsDto, @RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        userDetailsServiceForUser.createUserDetails(userId, userDetailsDto, file)
+                        userDetailsServiceForUser.createUserDetails(userDetails, userDetailsDto, file)
                 );
     }
 
@@ -41,6 +45,14 @@ public class UserDetailsController {
     public ResponseEntity<UserDetailsResponseDto> getUserDetails(@PathVariable long userId) {
         return ResponseEntity
                 .ok(this.userDetailsServiceForUser.getUserDetails(userId));
+    }
+
+    @PutMapping(path = "/")
+    public ResponseEntity<String> updateUserDetails(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UserDetailsDto dto) {
+        return ResponseEntity
+                .ok(
+                        this.userDetailsServiceForUser.updateUserDetails(userDetails, dto)
+                );
     }
 
 }

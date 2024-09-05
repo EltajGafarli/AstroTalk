@@ -20,7 +20,11 @@ public class UserDetailsServiceForUser {
     private final UserRepository userRepository;
 
     @Transactional
-    public String createUserDetails(long userId, UserDetailsDto userDetailsDto, MultipartFile file) {
+    public String createUserDetails(org.springframework.security.core.userdetails.UserDetails userDetailsInterface, UserDetailsDto userDetailsDto, MultipartFile file) {
+
+        long userId = userRepository.findByUserName(userDetailsInterface.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
+
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User not found")
         );
@@ -55,8 +59,43 @@ public class UserDetailsServiceForUser {
                 .orElseThrow(
                         () -> new NotFoundException("User not found")
                 );
+
+        if(user.getUserDetails() == null) {
+            throw new NotFoundException("user details not found");
+        }
+
         return detailsToDto(user.getUserDetails());
     }
+
+    @Transactional
+    public String updateUserDetails(org.springframework.security.core.userdetails.UserDetails userDetailsInterface, UserDetailsDto userDetailsDto) {
+        User user = userRepository.findByUserName(userDetailsInterface.getUsername())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        if(user.getUserDetails() == null) {
+            throw new NotFoundException("user details not found");
+        }
+
+        UserDetails userDetails = user.getUserDetails();
+
+        if(userDetailsDto.getDateOfBirth() != null) {
+            userDetails.setDateOfBirth(userDetailsDto.getDateOfBirth());
+        }
+
+        if(userDetailsDto.getGender() != null) {
+            userDetails.setGender(userDetailsDto.getGender());
+        }
+
+        if(userDetailsDto.getInterests() != null) {
+            userDetails.setInterests(userDetailsDto.getInterests());
+        }
+
+        userDetailsRepository.save(userDetails);
+
+        return "User Details Updated";
+    }
+
+
 
     private UserDetails dtoToUserDetails(UserDetailsDto dto) {
         return UserDetails
