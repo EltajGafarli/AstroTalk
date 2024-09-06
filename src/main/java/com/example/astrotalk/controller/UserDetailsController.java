@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class UserDetailsController {
     private final UserDetailsServiceForUser userDetailsServiceForUser;
-    private final UserDetailsService userDetailsService;
 
-    @PostMapping(path = "/{userId}", consumes = {
-            MediaType.APPLICATION_OCTET_STREAM_VALUE,
+    @PostMapping(consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     public ResponseEntity<String> createUserDetails(@AuthenticationPrincipal UserDetails userDetails, @RequestPart(value = "userDetailsDto") UserDetailsDto userDetailsDto, @RequestPart(value = "file") MultipartFile file) {

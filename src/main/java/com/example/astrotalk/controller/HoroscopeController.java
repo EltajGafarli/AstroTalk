@@ -4,6 +4,7 @@ import com.example.astrotalk.dto.HoroscopeDto;
 import com.example.astrotalk.service.HoroscopeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,11 @@ import java.util.List;
 public class HoroscopeController {
     private final HoroscopeService horoscopeService;
 
-    @PostMapping
+    @PostMapping(
+            consumes = {
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+            }
+    )
     public ResponseEntity<String> createHoroscope(@RequestPart(value = "horoscope") HoroscopeDto horoscopeDto, @RequestPart(value = "file") MultipartFile file) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)

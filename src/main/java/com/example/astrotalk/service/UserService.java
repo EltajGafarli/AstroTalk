@@ -54,6 +54,8 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToFollow = userRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
 
+
+
         user.followUser(userToFollow);
         userRepository.save(user);
         userRepository.save(userToFollow);
@@ -71,6 +73,7 @@ public class UserService {
         userRepository.save(userToUnfollow);
     }
 
+    @Transactional
     public int getFollowersCount(UserDetails userDetails) {
         long userId = userRepository.findByUserName(userDetails.getUsername())
                 .orElseThrow(() -> new NotFoundException("User not found")).getId();
@@ -78,6 +81,7 @@ public class UserService {
         return user.getFollowers().size();
     }
 
+    @Transactional
     public int getFollowingCount(UserDetails userDetails) {
         long userId = userRepository.findByUserName(userDetails.getUsername())
                 .orElseThrow(() -> new NotFoundException("User not found")).getId();

@@ -34,7 +34,7 @@ public class UserDetails {
     @EqualsAndHashCode.Exclude
     private User user;
 
-    @ElementCollection(targetClass = Interests.class)
+    @ElementCollection(targetClass = Interests.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_details_id"))
     @Column(name = "interest")

@@ -19,7 +19,6 @@ public class PlanetController {
     private final PlanetService planetService;
 
     @PostMapping(consumes = {
-            MediaType.APPLICATION_OCTET_STREAM_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     public ResponseEntity<String> planetCreated(@RequestPart(value = "planetDto") PlanetDto planetDto, @RequestPart(value = "file")MultipartFile file) {

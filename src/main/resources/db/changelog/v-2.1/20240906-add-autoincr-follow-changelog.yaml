@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240906-1
+      author: FirstName LastName
+      changes:
+        - addAutoIncrement:
+            tableName: followers
+            columnName: id

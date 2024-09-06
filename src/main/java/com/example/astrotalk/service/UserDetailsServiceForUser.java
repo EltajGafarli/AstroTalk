@@ -54,6 +54,7 @@ public class UserDetailsServiceForUser {
     }
 
 
+    @Transactional
     public UserDetailsResponseDto getUserDetails(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(
