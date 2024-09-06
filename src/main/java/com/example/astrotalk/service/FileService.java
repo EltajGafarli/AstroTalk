@@ -12,7 +12,7 @@ public class FileService {
 
     public static String handleFileUpload(MultipartFile file, String folder) {
 
-        Path rootLocation = Paths.get(rootLocationStr + folder);
+        Path rootLocation = Paths.get(rootLocationStr);
 
         if(file.isEmpty()) {
             throw new RuntimeException("Cannot upload an empty file.");

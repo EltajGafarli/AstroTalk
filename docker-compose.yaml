@@ -13,6 +13,8 @@ services:
       SPRING_DATASOURCE_USERNAME: postgresql
       SPRING_DATASOURCE_PASSWORD: password
       ADMIN_EMAIL: eltacqeferli@gmail.com
+    volumes:
+      - ./uploads:src/main/resources/static
     networks:
       - springpostgres-net
 
