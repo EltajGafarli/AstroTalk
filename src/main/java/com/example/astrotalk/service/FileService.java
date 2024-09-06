@@ -1,5 +1,6 @@
 package com.example.astrotalk.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -8,7 +9,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class FileService {
-    private static final String rootLocationStr = "src/main/resources/static/";
+    @Value("${file.storage.path}")
+    private static String rootLocationStr;
 
     public static String handleFileUpload(MultipartFile file, String folder) {
 

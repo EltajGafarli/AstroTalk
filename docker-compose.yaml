@@ -13,8 +13,9 @@ services:
       SPRING_DATASOURCE_USERNAME: postgresql
       SPRING_DATASOURCE_PASSWORD: password
       ADMIN_EMAIL: eltacqeferli@gmail.com
+      FILE_STORAGE_PATH: /app/static/
     volumes:
-      - ./uploads:src/main/resources/static
+      - /home/itsmemmedov/AstroTalk/uploads:/app/static:rw
     networks:
       - springpostgres-net
 
