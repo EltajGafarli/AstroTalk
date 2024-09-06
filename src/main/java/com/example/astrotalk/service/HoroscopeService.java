@@ -32,6 +32,7 @@ public class HoroscopeService {
                 );
         return HoroscopeDto
                 .builder()
+                .id(horoscope.getId())
                 .horoscopeName(horoscope.getHoroscopeName())
                 .image(horoscope.getImage())
                 .build();
@@ -71,6 +72,7 @@ public class HoroscopeService {
     private HoroscopeDto horoscopeToDto(Horoscope horoscope) {
         return HoroscopeDto
                 .builder()
+                .id(horoscope.getId())
                 .horoscopeName(horoscope.getHoroscopeName())
                 .image(horoscope.getImage())
                 .build();

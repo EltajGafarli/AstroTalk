@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserRequestDto {
+    private long id;
     @NotNull
     @NotEmpty
     @NotBlank

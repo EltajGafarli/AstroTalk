@@ -69,6 +69,7 @@ public class HoroscopeDetailsService {
     private HoroscopeDetailsDto toDto(HoroscopeDetails details) {
         return HoroscopeDetailsDto
                 .builder()
+                .id(details.getId())
                 .features(details.getFeatures())
                 .planet(details.getPlanet())
                 .type(details.getType())

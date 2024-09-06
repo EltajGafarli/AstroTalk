@@ -111,6 +111,7 @@ public class UserDetailsServiceForUser {
     private UserDetailsResponseDto detailsToDto(UserDetails userDetails) {
         return UserDetailsResponseDto
                 .builder()
+                .id(userDetails.getId())
                 .profilePictureUrl(userDetails.getProfilePictureUrl())
                 .dateOfBirth(userDetails.getDateOfBirth())
                 .gender(userDetails.getGender())

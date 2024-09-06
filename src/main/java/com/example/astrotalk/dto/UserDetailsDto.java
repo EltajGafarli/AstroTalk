@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @Builder
 public class UserDetailsDto {
+    private long id;
     private Gender gender;
     private Date dateOfBirth;
     private List<Interests> interests;

@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @Builder
 public class UserDetailsResponseDto {
+    private long id;
     private String profilePictureUrl;
     private Gender gender;
     private Date dateOfBirth;

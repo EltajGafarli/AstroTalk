@@ -92,6 +92,7 @@ public class PlanetService {
     private PlanetDto planetToDto(Planet planet) {
         return PlanetDto
                 .builder()
+                .id(planet.getId())
                 .name(planet.getName())
                 .about(planet.getAbout())
                 .area(planet.getArea())

@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 @Builder
 public class PlanetDto {
+
+    private long id;
     @NotNull
     @NotBlank
     @NotEmpty
