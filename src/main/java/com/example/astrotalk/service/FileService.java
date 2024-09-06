@@ -9,8 +9,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class FileService {
-    @Value("${file.storage.path}")
-    private static String rootLocationStr;
+//    @Value("${file.storage.path}")
+    private final static String rootLocationStr = "/app/static";
 
     public static String handleFileUpload(MultipartFile file, String folder) {
 
