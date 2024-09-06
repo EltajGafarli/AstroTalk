@@ -119,6 +119,12 @@ public class SecurityConfig {
                                 .authenticated()
                 )
 
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/files/**")
+                                .authenticated()
+                )
+
                 .logout(
                         request -> request.
                                 logoutUrl("/api/auth/logout")
