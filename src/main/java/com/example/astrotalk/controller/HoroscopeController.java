@@ -64,7 +64,7 @@ public class HoroscopeController {
     }
 
 
-    @GetMapping(path = "/{name}")
+    @GetMapping(path = "/name/{name}")
     public ResponseEntity<HoroscopeDto> findHoroscopeByName(@PathVariable String name) {
         return ResponseEntity
                 .ok(this.horoscopeService.findHoroscopeByName(name));
