@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HoroscopeDetailsService {
-    private HoroscopeDetailsRepository horoscopeDetailsRepository;
-    private HoroscopeRepository horoscopeRepository;
+    private final HoroscopeDetailsRepository horoscopeDetailsRepository;
+    private final HoroscopeRepository horoscopeRepository;
 
     @Transactional
     public String create(long hId, HoroscopeDetailsDto dto) {
