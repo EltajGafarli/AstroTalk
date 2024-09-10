@@ -1,6 +1,7 @@
 package com.example.astrotalk.service;
 
 import com.example.astrotalk.dto.HoroscopeDetailsDto;
+import com.example.astrotalk.dto.HoroscopeDetailsRequestDto;
 import com.example.astrotalk.entity.planet.Horoscope;
 import com.example.astrotalk.entity.planet.HoroscopeDetails;
 import com.example.astrotalk.entity.planet.Type;
@@ -20,7 +21,7 @@ public class HoroscopeDetailsService {
     private final HoroscopeRepository horoscopeRepository;
 
     @Transactional
-    public String create(long hId, HoroscopeDetailsDto dto) {
+    public String create(long hId, HoroscopeDetailsRequestDto dto) {
         Horoscope horoscope = horoscopeRepository.findById(hId)
                 .orElseThrow(
                         () -> new NotFoundException("Horoscope Details not found")

@@ -1,6 +1,7 @@
 package com.example.astrotalk.controller;
 
 import com.example.astrotalk.dto.HoroscopeDetailsDto;
+import com.example.astrotalk.dto.HoroscopeDetailsRequestDto;
 import com.example.astrotalk.service.HoroscopeDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HoroscopeDetailsController {
     private final HoroscopeDetailsService horoscopeDetailsService;
-
+    .
     @PostMapping(path = "/{hId}")
-    public ResponseEntity<String> create(@PathVariable long hId, @RequestBody HoroscopeDetailsDto dto) {
+    public ResponseEntity<String> create(@PathVariable long hId, @RequestBody HoroscopeDetailsRequestDto dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(horoscopeDetailsService.create(hId, dto));
