@@ -38,6 +38,14 @@ public class HoroscopeService {
                 .build();
     }
 
+    public HoroscopeDto findHoroscopeByName(String name) {
+        Horoscope horoscope = horoscopeRepository.findHoroscopeByHoroscopeName(name).orElseThrow(
+                () -> new NotFoundException("Horoscope not found with this name")
+        );
+
+        return horoscopeToDto(horoscope);
+    }
+
     public List<HoroscopeDto> findAll() {
         return horoscopeRepository
                 .findAll()

@@ -75,8 +75,9 @@ public class SecurityConfig {
                         request -> request
                                 .requestMatchers(HttpMethod.GET,"/api/horoscope")
                                 .authenticated()
+                                .requestMatchers(HttpMethod.GET,"/api/horoscope/{name}")
+                                .authenticated()
                 )
-
                 .authorizeHttpRequests(
                         request -> request
                                 .requestMatchers("/api/horoscope/**")
