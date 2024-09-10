@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HoroscopeDetailsController {
     private final HoroscopeDetailsService horoscopeDetailsService;
-    .
+
     @PostMapping(path = "/{hId}")
     public ResponseEntity<String> create(@PathVariable long hId, @RequestBody HoroscopeDetailsRequestDto dto) {
         return ResponseEntity
