@@ -17,7 +17,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${SPRING_DATASOURCE_USERNAME:postgresql}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/astro}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://35.223.201.116:5432/astro}
   liquibase:
     enabled: true
 

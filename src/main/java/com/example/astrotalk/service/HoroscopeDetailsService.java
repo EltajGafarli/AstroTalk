@@ -42,6 +42,7 @@ public class HoroscopeDetailsService {
 
     }
 
+    @Transactional
     public List<HoroscopeDetailsDto> findByHoroscopeId(long hId) {
         Horoscope horoscope = horoscopeRepository.findById(hId)
                 .orElseThrow(
