@@ -8,4 +8,5 @@ import lombok.*;
 @Builder
 public class JwtResponseDto {
     private String accessToken;
+    private String refreshToken;
 }

@@ -10,6 +10,9 @@ import com.example.astrotalk.exception.AlreadyExistException;
 import com.example.astrotalk.exception.NotFoundException;
 import com.example.astrotalk.repository.RoleRepository;
 import com.example.astrotalk.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,12 +78,13 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
         String userName = loginRequest.getUserName();
         User user = userRepository.findByUserName(userName).orElseThrow(
-                () -> {throw new NotFoundException("User not found");}
+                () -> new NotFoundException("User not found")
         );
 
 
         String jwt = jwtService.generateToken(user);
-        return getToken(jwt);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        return getToken(jwt, refreshToken);
 
     }
 
@@ -102,9 +109,38 @@ public class AuthService {
 
     }
 
-    private JwtResponseDto getToken(String jwt) {
+    private JwtResponseDto getToken(String jwt, String refreshToken) {
         return JwtResponseDto.builder()
                 .accessToken(jwt)
+                .refreshToken(refreshToken)
                 .build();
+    }
+
+
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String header = request.getHeader("Authorization");
+        final String refreshToken;
+        final String username;
+
+        if (header == null || !header.startsWith("Bearer ")) {
+            return;
+        }
+
+        refreshToken = header.substring(7);
+        username = jwtService.findUserName(refreshToken);
+        if(username != null) {
+            Optional<User> optionalUser = userRepository.findByUserName(username);
+            if(optionalUser.isPresent() && jwtService.tokenControl(refreshToken, optionalUser.get())) {
+                User user = optionalUser.get();
+                String jwtToken = jwtService.generateToken(user);
+                JwtResponseDto jwtResponse = JwtResponseDto
+                        .builder()
+                        .accessToken(jwtToken)
+                        .refreshToken(refreshToken)
+                        .build();
+                new ObjectMapper()
+                        .writeValue(response.getOutputStream(), jwtResponse);
+            }
+        }
     }
 }

@@ -41,7 +41,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      o: bind
+      o: bind+66
       device: ./data
 
 networks:

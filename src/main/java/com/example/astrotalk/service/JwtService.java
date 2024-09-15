@@ -25,6 +25,8 @@ import static com.example.astrotalk.util.JwtServiceConstants.*;
 public class JwtService {
 
 
+
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -54,7 +56,19 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(jwtIssuedDate())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+
+    public String generateRefreshToken(UserDetails userDetails) {
+        return Jwts
+                .builder()
+                .setClaims(new HashMap<>())
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(jwtIssuedDate())
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_EXPIRATION))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -131,5 +145,19 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String findUserName(String token) {
+        return exportToken(token, Claims::getSubject);
+    }
+
+    public <T> T exportToken(String token, Function<Claims, T> claimsTFunction) {
+        Claims claims = extractAllClaims(token);
+        return claimsTFunction.apply(claims);
+    }
+
+    public boolean tokenControl(String token, UserDetails userDetails) {
+        final String username = findUserName(token);
+        return (username.equals(userDetails.getUsername())) && !exportToken(token, Claims::getExpiration).before(new Date());
     }
 }

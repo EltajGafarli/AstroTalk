@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240916-1
+      author: FirstName LastName
+      changes:
+        - addAutoIncrement:
+            tableName: horoscope_details
+            columnName: id
