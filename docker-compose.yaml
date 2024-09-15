@@ -36,13 +36,13 @@ services:
       retries: 5
       start_period: 20s
 
-volumes:
-  postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind+66
-      device: ./data
+#volumes:
+#  postgres_data:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: ./data
 
 networks:
   springpostgres-net:

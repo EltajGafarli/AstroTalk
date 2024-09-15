@@ -125,7 +125,17 @@ public class SecurityConfig {
                                 .requestMatchers("/files/**")
                                 .authenticated()
                 )
-
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers(HttpMethod.POST, "/api/motivation")
+                                .hasAnyAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/motivation/{id}")
+                                .hasAnyAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/motivation/{id}")
+                                .hasAnyAuthority("ADMIN")
+                                .requestMatchers("/api/motivation/**")
+                                .authenticated()
+                )
                 .logout(
                         request -> request.
                                 logoutUrl("/api/auth/logout")

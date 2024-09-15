@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - databaseChangeLog:
+  - changeSet:
+      id: 20240903-1
+      author: FirstName LastName
+      changes:
+        - createTable:
+            tableName: motivations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+
+              - column:
+                  name: motivation_letter
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: motivation_image
+                  type: varchar(255)
