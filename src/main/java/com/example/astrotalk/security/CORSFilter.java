@@ -35,6 +35,10 @@ public class CORSFilter implements Filter {
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            response.getWriter().println("{ \"Access-Control-Allow-Origin\": \"" + origin + "\" }");
+            response.getWriter().flush();
+            response.getWriter().close();
         } else {
             chain.doFilter(req, res);
         }

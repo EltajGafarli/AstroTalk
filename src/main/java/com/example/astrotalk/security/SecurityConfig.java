@@ -51,7 +51,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(
                         request -> request
-                                .requestMatchers("/api/user-details/**")
+                                .requestMatchers("/api/user-details/**", "/api/user-details")
                                 .authenticated()
                 )
 
@@ -135,6 +135,11 @@ public class SecurityConfig {
                                 .hasAnyAuthority("ADMIN")
                                 .requestMatchers("/api/motivation/**")
                                 .authenticated()
+                )
+                .authorizeHttpRequests(
+                        request -> request
+                                .requestMatchers("/api/admin/**")
+                                .permitAll()
                 )
                 .logout(
                         request -> request.

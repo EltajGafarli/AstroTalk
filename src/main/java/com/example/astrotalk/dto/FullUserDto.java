@@ -12,12 +12,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Builder
-public class UserDto implements Serializable {
+public class FullUserDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private long id;
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private String email;
+    private UserDto user;
+    private UserDetailsResponseDto userDetails;
 }

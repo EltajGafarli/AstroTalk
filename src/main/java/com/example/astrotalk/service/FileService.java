@@ -10,7 +10,8 @@ import java.util.UUID;
 
 public class FileService {
 //    @Value("${file.storage.path}")
-    private final static String rootLocationStr = "/app/static";
+      private static final String rootLocationStr = "/app/static";
+//    private final static String rootLocationStr = "/Users/qafarlieltac/Documents/AstroTalk/src/main/resources/static";
 
     public static String handleFileUpload(MultipartFile file, String folder) {
 
