@@ -5,6 +5,7 @@ import com.example.astrotalk.dto.UserDetailsDto;
 import com.example.astrotalk.dto.UserDetailsResponseDto;
 import com.example.astrotalk.entity.user.User;
 import com.example.astrotalk.entity.user.UserDetails;
+import com.example.astrotalk.exception.AlreadyExistException;
 import com.example.astrotalk.exception.NotFoundException;
 import com.example.astrotalk.repository.UserDetailsRepository;
 import com.example.astrotalk.repository.UserRepository;
@@ -28,6 +29,10 @@ public class UserDetailsServiceForUser {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User not found")
         );
+
+        if(user.getUserDetails() != null) {
+            throw new AlreadyExistException("User details already exists");
+        }
 
         String fileName = FileService.handleFileUpload(file, "profile");
 

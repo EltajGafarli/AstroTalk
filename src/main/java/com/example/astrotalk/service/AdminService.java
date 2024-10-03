@@ -40,6 +40,13 @@ public class AdminService {
         return userToFullDto(user);
     }
 
+    @Transactional
+    public String deleteUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        userRepository.delete(user);
+        return "User deleted";
+    }
+
     private UserDto userToDto(User user) {
         if (user == null) {
             return null;
