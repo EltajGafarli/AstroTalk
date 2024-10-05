@@ -90,6 +90,7 @@ public class UserService {
         return user.getFollowing().size();
     }
 
+    @Transactional
     public List<UserDto> recommendUsersToFollow(UserDetails userDetails) {
         long userId = userRepository.findByUserName(userDetails.getUsername())
                 .orElseThrow(() -> new NotFoundException("User not found")).getId();
@@ -104,13 +105,13 @@ public class UserService {
 
         return usersNotFollowed.stream()
                 .sorted((user1, user2) -> {
-                    long sharedInterestsUser1 = user1.getUserDetails().getInterests().stream()
+                    long sharedInterestsUser1 = user1.getUserDetails() != null ? user1.getUserDetails().getInterests().stream()
                             .filter(interest -> currentUser.getUserDetails().getInterests().contains(interest))
-                            .count();
+                            .count() : 0;
 
-                    long sharedInterestsUser2 = user2.getUserDetails().getInterests().stream()
+                    long sharedInterestsUser2 = user2.getUserDetails() != null ? user2.getUserDetails().getInterests().stream()
                             .filter(interest -> currentUser.getUserDetails().getInterests().contains(interest))
-                            .count();
+                            .count() : 0;
 
                     return Long.compare(sharedInterestsUser2, sharedInterestsUser1);
                 })
